@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carpintería Artesanos del Bosque | Sistema Unificado</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Playfair Display for headers, Inter for body -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        forest: {
+                            50: '#f2f7f4',
+                            100: '#e1ede5',
+                            600: '#2d4a3e',
+                            700: '#1e332a',
+                            800: '#14221c',
+                            900: '#0c1411',
+                        },
+                        wood: {
+                            light: '#b89772',
+                            DEFAULT: '#96714a',
+                            dark: '#614629',
+                            card: '#8c6b47',
+                            card2: '#735534'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4, .font-serif { font-family: 'Playfair Display', serif; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #c5d3cb; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #96714a; }
+    </style>
+</head>
+<body class="bg-[#f7f5ef] text-slate-800 antialiased min-h-screen flex flex-col selection:bg-forest-700 selection:text-white">
+
+    <!-- TOP GLOBAL APP SWITCHER & CART BAR -->
+    <div class="bg-forest-900 text-[#f5f2eb] text-xs py-2.5 px-6 flex flex-wrap justify-between items-center border-b border-forest-600 gap-2 z-50">
+        <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span class="font-medium">Carpintería Artesanos del Bosque • Sistema Unificado</span>
+        </div>
+        <div class="flex items-center gap-3">
+            <button onclick="toggleCartModal()" class="px-3.5 py-1.5 bg-wood hover:bg-wood-dark text-white rounded-lg font-medium transition text-xs shadow-sm flex items-center gap-1.5">
+                <i class="fa-solid fa-cart-shopping"></i> Carrito / Cotización Web (<span id="cartCount">0</span>)
+            </button>
+            <button onclick="switchSystemView('public')" id="btnViewPublic" class="px-3.5 py-1.5 bg-wood text-white rounded-lg font-medium transition text-xs shadow-sm flex items-center gap-1.5">
+                <i class="fa-solid fa-globe"></i> Vista Tienda Pública
+            </button>
+            <button onclick="switchSystemView('admin')" id="btnViewAdmin" class="px-3.5 py-1.5 bg-forest-700 hover:bg-forest-800 text-white rounded-lg font-medium transition text-xs flex items-center gap-1.5">
+                <i class="fa-solid fa-lock"></i> Panel Admin
+            </button>
+        </div>
+    </div>
+
+    <!-- ==================== PART 1: PUBLIC STOREFRONT WEBSITE ==================== -->
+    <div id="publicView" class="block flex-1 flex flex-col">
+        <!-- Top Notification Bar -->
+        <div class="bg-forest-800 text-[#f5f2eb] text-xs py-2 px-4 text-center tracking-wider uppercase font-medium">
+            Hecho para durar • Diseños sobre pedido y acabados personalizables
+        </div>
+
+        <!-- Header / Navbar -->
+        <header class="sticky top-0 z-40 bg-forest-800/95 backdrop-blur-md border-b border-forest-600 transition-all">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+                <a href="#inicio" class="flex items-center space-x-3 group">
+                    <div class="w-10 h-10 rounded-full bg-forest-700 border border-wood/40 flex items-center justify-center text-white font-serif font-bold text-lg shadow-inner">
+                        AB
+                    </div>
+                    <div>
+                        <span class="block text-white font-serif text-lg tracking-wide font-semibold">Artesanos del Bosque</span>
+                        <span class="block text-wood-light text-xs tracking-widest uppercase">Carpintería Fina</span>
+                    </div>
+                </a>
+                <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-white/90">
+                    <a href="#inicio" class="hover:text-wood-light transition-colors">Inicio</a>
+                    <a href="#catalogo" class="hover:text-wood-light transition-colors">Catálogo</a>
+                    <a href="#cotizador" class="hover:text-wood-light transition-colors">Cotizador Exprés</a>
+                    <a href="#proceso" class="hover:text-wood-light transition-colors">Proceso</a>
+                    <a href="#faq" class="hover:text-wood-light transition-colors">Preguntas Frecuentes</a>
+                </nav>
+                <div>
+                    <button onclick="toggleCartModal()" class="hidden sm:inline-flex items-center gap-2 bg-wood hover:bg-wood-dark text-white text-sm px-5 py-2.5 rounded-full transition-all shadow-md">
+                        <i class="fa-solid fa-cart-shopping text-base"></i>
+                        <span>Ver Cotización y Pedir</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section id="inicio" class="bg-forest-800 text-white py-20 lg:py-28 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-7 space-y-6">
+                    <span class="text-xs uppercase tracking-widest bg-forest-700 px-3 py-1.5 rounded text-wood-light font-semibold inline-block border border-wood/30">
+                        Carpintería Artesanal Personalizada
+                    </span>
+                    <h1 class="text-4xl sm:text-6xl font-serif font-bold tracking-tight leading-tight">
+                        Madera con carácter.<br>
+                        <span class="italic font-normal text-wood-light">Hecha para tu espacio.</span>
+                    </h1>
+                    <p class="text-lg text-white/80 max-w-xl font-light leading-relaxed">
+                        Creamos muebles funcionales y duraderos que combinan diseño, calidez y el encanto natural de la madera selecta. Cada pieza es elaborada artesanalmente a la medida exacta de tu hogar.
+                    </p>
+                    <div class="flex flex-wrap gap-4 pt-2">
+                        <a href="#catalogo" class="bg-wood hover:bg-wood-dark text-white px-8 py-3.5 rounded-full font-medium transition-all shadow-lg flex items-center gap-2">
+                            <span>Explorar catálogo</span>
+                            <i class="fa-solid fa-arrow-down text-xs"></i>
+                        </a>
+                        <button onclick="toggleCartModal()" class="border border-white/30 hover:border-wood text-white px-8 py-3.5 rounded-full font-medium transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-calculator text-wood-light"></i>
+                            <span>Armar Cotización Web</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative w-full max-w-md bg-forest-700 p-8 rounded-2xl border border-wood/30 shadow-2xl">
+                        <div class="absolute -top-4 -right-4 bg-wood text-white text-xs uppercase px-3 py-1 rounded-full tracking-wider font-semibold shadow">
+                            Diseño Consciente
+                        </div>
+                        <div class="space-y-6 text-center py-6">
+                            <div class="w-24 h-24 mx-auto rounded-full bg-forest-800 border-2 border-wood/50 flex items-center justify-center text-3xl text-wood-light shadow-inner font-serif">
+                                AB
+                            </div>
+                            <h3 class="text-2xl font-serif text-white">La belleza está en los detalles.</h3>
+                            <p class="text-sm text-white/80">
+                                Explora una selección de muebles de referencia. Podemos adaptar medidas, madera y acabado para que cada pieza encaje contigo.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Catalog Section (16 Items) -->
+        <section id="catalogo" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+            <div class="text-center max-w-2xl mx-auto mb-16 space-y-3">
+                <span class="text-xs uppercase tracking-widest text-wood font-semibold">Nuestra Colección</span>
+                <h2 class="text-3xl sm:text-4xl font-serif font-bold text-forest-800">Muebles que hacen hogar.</h2>
+                <p class="text-sm text-gray-600">Piezas de madera para descansar, trabajar, organizar y compartir. Filtra por categoría o busca tu mueble ideal.</p>
+            </div>
+
+            <!-- Search and Filters Bar -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 mb-10 flex flex-col md:flex-row gap-4 justify-between items-center">
+                <div class="relative w-full md:w-96">
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                        <i class="fa-solid fa-search"></i>
+                    </span>
+                    <input type="text" id="searchInput" placeholder="Buscar un mueble (ej. Roble, Mesa, Clóset)..." class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-forest-700 transition-colors">
+                </div>
+                <div class="flex flex-wrap gap-2 w-full md:w-auto justify-start md:justify-end" id="filterButtons">
+                    <button data-filter="all" class="filter-btn px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider bg-forest-800 text-white transition-all shadow-sm">Todos</button>
+                    <button data-filter="recamara" class="filter-btn px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all">Recámara</button>
+                    <button data-filter="sala" class="filter-btn px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all">Sala y Comedor</button>
+                    <button data-filter="oficina" class="filter-btn px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all">Oficina</button>
+                    <button data-filter="hogar" class="filter-btn px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all">Hogar y Detalles</button>
+                </div>
+            </div>
+
+            <!-- Catalog Grid -->
+            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+        </section>
+
+        <!-- Interactive Finish & Customizer Section -->
+        <section id="cotizador" class="bg-forest-800 text-white py-16 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto bg-forest-700 p-8 sm:p-12 rounded-3xl border border-wood/30 shadow-2xl">
+                <div class="text-center space-y-3 mb-10">
+                    <span class="text-xs uppercase tracking-widest text-wood-light font-semibold">Calculadora y Personalización</span>
+                    <h2 class="text-3xl font-serif font-bold">Diseña tu cotización exprés</h2>
+                    <p class="text-sm text-white/80">Selecciona el tipo de mueble, la madera de tu preferencia y los acabados para estimar y agregar directamente a tu cotización.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-wood-light mb-2 font-semibold">1. Tipo de Mueble</label>
+                        <select id="calcMueble" class="w-full bg-forest-800 border border-forest-600 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-wood">
+                            <option value="Mesa de Comedor">Mesa de Comedor</option>
+                            <option value="Clóset o Vestidor">Clóset o Vestidor</option>
+                            <option value="Escritorio / Estudio">Escritorio / Estudio</option>
+                            <option value="Cabecera o Recámara">Cabecera o Recámara</option>
+                            <option value="Mueble de Sala">Mueble de Sala</option>
+                            <option value="Librero / Estantería">Librero / Estantería</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-wood-light mb-2 font-semibold">2. Madera Selecta</label>
+                        <select id="calcMadera" class="w-full bg-forest-800 border border-forest-600 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-wood">
+                            <option value="Roble macizo">Roble macizo</option>
+                            <option value="Encino americano">Encino americano</option>
+                            <option value="Nogal fino">Nogal fino</option>
+                            <option value="Parota tropical">Parota tropical</option>
+                            <option value="Pino rústico tratado">Pino rústico tratado</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-wood-light mb-2 font-semibold">3. Tono / Acabado</label>
+                        <select id="calcAcabado" class="w-full bg-forest-800 border border-forest-600 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-wood">
+                            <option value="Natural mate transparente">Natural mate transparente</option>
+                            <option value="Nogal medio tintado">Nogal medio tintado</option>
+                            <option value="Oscuro carbón">Oscuro carbón</option>
+                            <option value="Blanco vinil deslavado">Blanco vinil deslavado</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="bg-forest-800 p-6 rounded-2xl border border-forest-600 flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
+                    <div>
+                        <span class="block text-xs uppercase tracking-wider text-gray-400">Precio Estimado de Referencia</span>
+                        <div id="estimatedPrice" class="text-3xl font-serif font-bold text-wood-light">$4,850 MXN</div>
+                        <span class="text-[11px] text-gray-400">*Sujeto a confirmación de medidas finales.</span>
+                    </div>
+                    <button onclick="addCustomToCart()" class="w-full sm:w-auto bg-wood hover:bg-wood-dark text-white px-8 py-3.5 rounded-full font-medium transition-all shadow-md flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-plus text-base"></i>
+                        <span>Agregar al Carrito Web</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process Section -->
+        <section id="proceso" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+            <div class="text-center max-w-2xl mx-auto mb-16 space-y-3">
+                <span class="text-xs uppercase tracking-widest text-wood font-semibold">Cómo Trabajamos</span>
+                <h2 class="text-3xl sm:text-4xl font-serif font-bold text-forest-800">El arte de crear para ti.</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm relative">
+                    <span class="text-4xl font-serif font-bold text-wood/30 absolute top-4 right-4">01</span>
+                    <h3 class="font-serif font-bold text-lg text-forest-800 mb-2">Diseño y Medición</h3>
+                    <p class="text-xs text-gray-600 leading-relaxed">Analizamos tu espacio y adaptamos las dimensiones exactas.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm relative">
+                    <span class="text-4xl font-serif font-bold text-wood/30 absolute top-4 right-4">02</span>
+                    <h3 class="font-serif font-bold text-lg text-forest-800 mb-2">Selección de Madera</h3>
+                    <p class="text-xs text-gray-600 leading-relaxed">Elegimos tablones selectos de roble, encino, nogal o parota.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm relative">
+                    <span class="text-4xl font-serif font-bold text-wood/30 absolute top-4 right-4">03</span>
+                    <h3 class="font-serif font-bold text-lg text-forest-800 mb-2">Fabricación Artesanal</h3>
+                    <p class="text-xs text-gray-600 leading-relaxed">Damos vida a tu mueble mediante cortes precisos y pulido a mano.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm relative">
+                    <span class="text-4xl font-serif font-bold text-wood/30 absolute top-4 right-4">04</span>
+                    <h3 class="font-serif font-bold text-lg text-forest-800 mb-2">Entrega e Instalación</h3>
+                    <p class="text-xs text-gray-600 leading-relaxed">Llevamos el mueble a tu domicilio y lo dejamos instalado.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="bg-forest-100/50 py-20 px-4 sm:px-6 lg:px-8 border-t border-b border-slate-200">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-16 space-y-3">
+                    <span class="text-xs uppercase tracking-widest text-wood font-semibold">Resolvemos Tus Dudas</span>
+                    <h2 class="text-3xl font-serif font-bold text-forest-800">Preguntas Frecuentes</h2>
+                </div>
+                <div class="space-y-4">
+                    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+                        <button class="faq-toggle w-full p-6 text-left flex justify-between items-center font-serif font-bold text-forest-800">
+                            <span>¿Trabajan sobre diseños y medidas totalmente personalizadas?</span>
+                            <i class="fa-solid fa-chevron-down text-wood"></i>
+                        </button>
+                        <div class="faq-content hidden px-6 pb-6 text-xs text-gray-600 leading-relaxed">
+                            ¡Así es! Cada espacio es único. Podemos fabricar cualquier mueble adaptándonos a las medidas exactas de tu hogar, oficina o negocio.
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+                        <button class="faq-toggle w-full p-6 text-left flex justify-between items-center font-serif font-bold text-forest-800">
+                            <span>¿Cuál es el tiempo estimado de fabricación y entrega?</span>
+                            <i class="fa-solid fa-chevron-down text-wood"></i>
+                        </button>
+                        <div class="faq-content hidden px-6 pb-6 text-xs text-gray-600 leading-relaxed">
+                            El tiempo de fabricación habitual oscila entre 3 y 5 semanas, dependiendo de la complejidad de la pieza.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-forest-900 text-white/70 py-12 px-4 sm:px-6 lg:px-8 border-t border-forest-700">
+            <div class="max-w-7xl mx-auto text-center text-xs text-gray-400">
+                &copy; 2026 Carpintería Artesanos del Bosque. Todos los derechos reservados.
+            </div>
+        </footer>
+
+        <!-- Floating Cart Button -->
+        <button onclick="toggleCartModal()" class="fixed bottom-6 right-6 z-50 bg-wood hover:bg-wood-dark text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-all transform hover:scale-105">
+            <i class="fa-solid fa-cart-shopping text-xl"></i>
+            <span id="floatingCartBadge" class="absolute -top-1 -right-1 bg-rose-600 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold">0</span>
+        </button>
+    </div>
+
+    <!-- ==================== PART 2: ADMINISTRATIVE DASHBOARD ==================== -->
+    <div id="adminView" class="hidden flex-1 flex flex-col">
+        <!-- LOGIN SCREEN -->
+        <div id="loginScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-forest-900 bg-opacity-95 p-4">
+            <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden border border-forest-100 transform transition-all">
+                <div class="bg-forest-800 p-8 text-center text-white relative">
+                    <div class="w-16 h-16 bg-wood mx-auto rounded-full flex items-center justify-center mb-3 shadow-lg border-2 border-wood-light">
+                        <i class="fa-solid fa-tree text-2xl text-white"></i>
+                    </div>
+                    <h1 class="text-2xl font-bold tracking-tight">Artesanos del Bosque</h1>
+                    <p class="text-forest-100 text-sm mt-1">Panel de Administración Exclusivo</p>
+                </div>
+                <form id="loginForm" class="p-8 space-y-6">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">Correo Electrónico</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
+                                <i class="fa-solid fa-envelope"></i>
+                            </span>
+                            <input type="email" id="loginEmail" required 
+                                class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 focus:outline-none focus:border-forest-700 focus:bg-white transition">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">Contraseña</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
+                                <i class="fa-solid fa-lock"></i>
+                            </span>
+                            <input type="password" id="loginPassword" required 
+                                class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 focus:outline-none focus:border-forest-700 focus:bg-white transition">
+                        </div>
+                    </div>
+                    <div id="loginError" class="text-rose-600 text-xs text-center hidden font-medium"></div>
+                    <button type="submit" 
+                        class="w-full py-3.5 bg-forest-700 hover:bg-forest-800 text-white font-semibold rounded-xl shadow-lg shadow-forest-700/20 transition flex items-center justify-center gap-2">
+                        <span>Iniciar Sesión</span>
+                        <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                    </button>
+                    <div class="text-center text-xs text-slate-400 pt-2">
+                        Acceso de prueba: Credenciales precargadas
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- MAIN APP LAYOUT (Hidden until login) -->
+        <div id="appLayout" class="hidden flex h-screen overflow-hidden">
+            <!-- SIDEBAR -->
+            <aside id="sidebar" class="w-64 bg-white border-r border-slate-200 flex flex-col z-30 transition-all duration-300">
+                <div class="h-20 bg-forest-800 text-white flex items-center px-6 gap-3 shadow-md">
+                    <div class="w-10 h-10 rounded-lg bg-wood flex items-center justify-center shadow">
+                        <i class="fa-solid fa-tree text-lg"></i>
+                    </div>
+                    <div>
+                        <span class="font-bold text-base tracking-tight block leading-tight">Artesanos</span>
+                        <span class="text-xs text-forest-100 font-light">del Bosque</span>
+                    </div>
+                </div>
+
+                <!-- Navigation Links (8 Tabs) -->
+                <nav class="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
+                    <a href="#" onclick="switchTab('inicio')" data-tab="inicio" class="nav-link flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-sm transition bg-forest-700 text-white shadow-sm">
+                        <i class="fa-solid fa-house w-5 text-center"></i><span>Inicio</span>
+                    </a>
+                    <a href="#" onclick="switchTab('catalogo')" data-tab="catalogo" class="nav-link flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-sm transition text-slate-600 hover:bg-forest-50 hover:text-forest-700">
+                        <i class="fa-solid fa-couch w-5 text-center"></i><span>Catálogo</span>
+                    </a>
+                    <a href="#" onclick="switchTab('solicitudes')" data-tab="solicitudes" class="nav-link flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-sm transition text-slate-600 hover:bg-forest-50 hover:text-forest-700">
+                        <i class="fa-solid fa-file-lines w-5 text-center"></i><span>Solicitudes</span>
+                    </a>
+                    <a href="#" onclick="switchTab('cotizaciones')" data-tab="cotizaciones" class="nav-link flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-sm transition text-slate-600 hover:bg-forest-50 hover:text-forest-700">
+                        <i class="fa-solid fa-calculator w-5 text-center"></i><span>Cotizaciones</span>
+                    </a>
+                    <a href="#" onclick="switchTab('proyectos')" data-tab="proyectos" class="nav-link flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-sm transition text-slate-600 hover:bg-forest-50 hover:text-forest-700">
+                        <i class="fa-solid fa-briefcase w-5 text-center"></i><span>Proyectos</span>
+                    </a>
+                    <a href="#" onclick="switchTab('inventario')" data-tab="inventario" class="nav-link flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-sm transition text-slate-600 hover:bg-forest-50 hover:text-forest-700">
+                        <i class="fa-solid fa-warehouse w-5 text-center"></i><span>Inventario</span>
+                    </a>
+                    <a href="#" onclick="switchTab('usuarios')" data-tab="usuarios" class="nav-link flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-sm transition text-slate-600 hover:bg-forest-50 hover:text-forest-700">
+                        <i class="fa-solid fa-users w-5 text-center"></i><span>Usuarios</span>
+                    </a>
+                    <a href="#" onclick="switchTab('reportes')" data-tab="reportes" class="nav-link flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-sm transition text-slate-600 hover:bg-forest-50 hover:text-forest-700">
+                        <i class="fa-solid fa-chart-line w-5 text-center"></i><span>Reportes</span>
+                    </a>
+                </nav>
+
+                <div class="p-4 border-t border-slate-100">
+                    <button onclick="logout()" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-rose-600 hover:bg-rose-50 transition">
+                        <i class="fa-solid fa-right-from-bracket w-5 text-center"></i><span>Cerrar Sesión</span>
+                    </button>
+                </div>
+            </aside>
+
+            <!-- CONTENT WRAPPER -->
+            <div class="flex-1 flex flex-col min-w-0 overflow-hidden bg-forest-50">
+                <header class="h-20 bg-white border-b border-slate-200 flex items-center justify-between px-8 z-20 shadow-sm">
+                    <div class="flex items-center gap-4">
+                        <button onclick="toggleSidebar()" class="text-slate-500 hover:text-forest-700 md:hidden">
+                            <i class="fa-solid fa-bars text-xl"></i>
+                        </button>
+                        <div>
+                            <span class="text-xs text-slate-400 font-medium block">Panel de Control - Artesanos del Bosque</span>
+                            <h2 id="pageTitleHeader" class="text-lg font-bold text-slate-800">Panel de Administración</h2>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-6">
+                        <div class="flex items-center gap-3 pl-4 border-l border-slate-200">
+                            <div class="w-10 h-10 rounded-full bg-wood-light flex items-center justify-center text-white font-bold shadow">
+                                <i class="fa-solid fa-user-tie"></i>
+                            </div>
+                            <div class="hidden sm:block text-left">
+                                <span class="text-sm font-bold text-slate-800 block leading-tight">Administrador</span>
+                                <span class="text-xs text-emerald-600 font-medium flex items-center gap-1">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span> En línea
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+                <main class="flex-1 overflow-y-auto p-8" id="mainContentArea"></main>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== IN-PAGE CART / CHECKOUT MODAL ==================== -->
+    <div id="cartModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-xl w-full overflow-hidden shadow-2xl border border-gray-100 flex flex-col max-h-[90vh]">
+            <div class="bg-forest-800 text-white p-6 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-cart-shopping text-wood-light text-xl"></i>
+                    <h3 class="font-serif font-bold text-lg">Tu Cotización Web y Pedido</h3>
+                </div>
+                <button onclick="toggleCartModal()" class="text-gray-300 hover:text-white text-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto flex-1 space-y-6">
+                <div id="cartItemsContainer" class="space-y-4"></div>
+                <div id="checkoutFormContainer" class="hidden space-y-4 pt-4 border-t border-gray-100">
+                    <h4 class="font-serif font-bold text-base text-forest-800">Datos para enviar tu proyecto</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold uppercase text-gray-500 mb-1">Nombre Completo</label>
+                            <input type="text" id="orderName" placeholder="Tu nombre" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-forest-700">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase text-gray-500 mb-1">Teléfono / WhatsApp</label>
+                            <input type="text" id="orderPhone" placeholder="10 dígitos" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-forest-700">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-gray-500 mb-1">Correo Electrónico</label>
+                        <input type="email" id="orderEmail" placeholder="correo@ejemplo.com" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-forest-700">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-gray-500 mb-1">Comentarios / Dirección de Entrega</label>
+                        <textarea id="orderNotes" placeholder="Detalles o medidas especiales..." class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-forest-700 h-20"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-gray-50 p-6 border-t border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div>
+                    <span class="text-xs uppercase text-gray-500 block">Total Estimado</span>
+                    <span id="cartTotalPrice" class="font-serif font-bold text-2xl text-forest-800">$0 MXN</span>
+                </div>
+                <div class="flex gap-3 w-full sm:w-auto">
+                    <button onclick="toggleCartModal()" class="px-5 py-3 rounded-xl border border-gray-300 text-gray-700 text-sm font-semibold hover:bg-gray-100 transition">Seguir viendo</button>
+                    <button id="checkoutBtn" onclick="proceedCheckout()" class="flex-1 sm:flex-none px-6 py-3 rounded-xl bg-wood hover:bg-wood-dark text-white text-sm font-semibold transition shadow">Confirmar Pedido</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GENERIC ADMIN DETAIL / EDIT MODAL -->
+    <div id="genericModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl border border-slate-100 transform transition-all">
+            <div class="bg-forest-800 text-white px-6 py-4 flex items-center justify-between">
+                <h3 id="modalTitle" class="font-bold text-base">Detalle de Solicitud</h3>
+                <button onclick="closeModal()" class="text-forest-100 hover:text-white transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <div id="modalBody" class="p-6 space-y-4 max-h-[75vh] overflow-y-auto"></div>
+            <div class="bg-slate-50 px-6 py-4 border-t border-slate-100 flex justify-end gap-3">
+                <button onclick="closeModal()" class="px-5 py-2.5 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-200 transition">Cerrar</button>
+                <button id="modalActionBtn" onclick="modalAction()" class="px-5 py-2.5 rounded-xl text-sm font-semibold bg-forest-700 text-white hover:bg-forest-800 transition shadow">Guardar Cambios</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- NOTIFICATION TOAST -->
+    <div id="toastNotification" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300">
+        <div class="bg-forest-800 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 border border-forest-600">
+            <i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+            <div>
+                <p id="toastTitle" class="font-bold text-sm">Operación Exitosa</p>
+                <p id="toastMessage" class="text-xs text-forest-100">Guardado correctamente.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT APPLICATION LOGIC -->
+    <script>
+        // 16 Catalog Products Data
+        const furnitureProducts = [
+            { id: "AB-01", name: "Mesa de comedor Roble Familiar", category: "sala", medidas: "180 × 90 × 75 cm", desc: "Mesa de comedor de estilo natural para 6 personas, fabricada sobre pedido. Madera sugerida: encino. Acabado: barniz transparente.", precioNum: 6500, precio: "$6,500 MXN", image: "https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?auto=format&fit=crop&w=600&q=80" },
+            { id: "AB-02", name: "Clóset de madera Nórdico", category: "recamara", medidas: "200 × 60 × 220 cm", desc: "Clóset a medida con espacio para colgar ropa, entrepaños y cajones. Madera sugerida: pino seleccionado con paneles.", precioNum: 12800, precio: "$12,800 MXN", image: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=600&q=80" },
+            { id: "AB-03", name: "Cabecera matrimonial Siena", category: "recamara", medidas: "140 × 5 × 120 cm", desc: "Cabecera de líneas sencillas para cama matrimonial, ideal para dar calidez.", precioNum: 3200, precio: "$3,200 MXN", image: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=600&q=80" },
+            { id: "AB-04", name: "Escritorio de trabajo Encino", category: "oficina", medidas: "120 × 60 × 75 cm", desc: "Escritorio funcional con cubierta amplia y espacio para organizar materiales.", precioNum: 4500, precio: "$4,500 MXN", image: "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&w=600&q=80" },
+            { id: "AB-05", name: "Buró de noche Laurel", category: "recamara", medidas: "50 × 40 × 60 cm", desc: "Buró compacto con cajón y espacio inferior para libros u objetos personales.", precioNum: 1950, precio: "$1,950 MXN", image: "https://images.unsplash.com/photo-1538688525198-9b88f6f53126?auto=format&fit=crop&w=600&q=80" },
+            { id: "AB-06", name: "Librero modular Bosque", category: "oficina", medidas: "90 × 30 × 180 cm", desc: "Librero de cinco niveles para libros, plantas y decoración.", precioNum: 5100, precio: "$5,100 MXN", image: "https://images.unsplash.com/photo-1594658090992-2dfa6620d8bf?auto=format&fit=crop&w=600&q=80" },
+            { id: "AB-07", name: "Banca de jardín Terra", category: "hogar", medidas: "120 × 45 × 45 cm", desc: "Banca de madera para terraza o jardín, con diseño robusto y cómodo.", precioNum: 2800, precio: "$2,800 MXN", image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=600&q=80" },
+            { id: "AB-08", name: "Mesa de centro Nogal", category: "sala", medidas: "100 × 55 × 42 cm", desc: "Mesa de centro para sala con cubierta amplia y patas estilizadas.", precioNum: 3600, precio: "$3,600 MXN", image: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&w=600&q=80" },
+            { id: "AB-09", name: "Credenza de sala Parota", category: "sala", medidas: "160 × 45 × 75 cm", desc: "Pieza imponente con vetas únicas y tonos cálidos.", precioNum: 7900, precio: "$7,900 MXN", image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=600&q=80" },
+            { id: "AB-10", name: "Centro de entretenimiento Nogal", category: "sala", medidas: "200 × 40 × 50 cm", desc: "Diseño moderno con pasacables ocultos y repisas abiertas.", precioNum: 8500, precio: "$8,500 MXN", image: "https://images.unsplash.com/photo-1595515106969-1ce29566ff1c?auto=format&fit=crop&w=600&q=80" },
+            { id: "AB-11", name: "Cómoda vertical Encino", category: "recamara", medidas: "80 × 45 × 120 cm", desc: "Cómoda alta de cinco cajones con gran capacidad de almacenamiento.", precioNum: 6200, precio: "$6,200 MXN", image: "https://images.unsplash.com/photo-1592078615290-033ee584e267?auto=format&fit=crop&w=600&q=80" },
+            { id: "AB-12", name: "Vitrina comedor Cedro", category: "sala", medidas: "100 × 40 × 180 cm", desc: "Mueble refinado con puertas de cristal templado.", precioNum: 9400, precio: "$9,400 MXN", image: "https://images.unsplash.com/photo-1617806118233-18e1c0c562ae?auto=format&fit=crop&w=600&q=80" },
+            { id: "AB-13", name: "Consola recibidor Abedul", category: "hogar", medidas: "110 × 35 × 85 cm", desc: "De líneas esbeltas y minimalistas, ideal para la entrada.", precioNum: 3100, precio: "$3,100 MXN", image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=600&q=80" },
+            { id: "AB-14", name: "Mueble zapatero Roble", category: "hogar", medidas: "90 × 35 × 100 cm", desc: "Zapatero discreto con sistemas de apertura abatible.", precioNum: 4200, precio: "$4,200 MXN", image: "https://images.unsplash.com/photo-1540518614846-7ede433c4ef0?auto=format&fit=crop&w=600&q=80" },
+            { id: "AB-15", name: "Cama king size Pino", category: "recamara", medidas: "200 × 195 × 120 cm", desc: "Estructura firme y robusta tratada artesanalmente.", precioNum: 8900, precio: "$8,900 MXN", image: "https://images.unsplash.com/photo-1540518614846-7ede433c4ef0?auto=format&fit=crop&w=600&q=80" },
+            { id: "AB-16", name: "Perchero de pared Madera", category: "hogar", medidas: "80 × 10 × 15 cm", desc: "Detalle funcional con ganchos metálicos de alta resistencia.", precioNum: 1200, precio: "$1,200 MXN", image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80" }
+        ];
+
+        // Shopping Cart state
+        let cart = [];
+
+        function addToCart(id) {
+            const product = furnitureProducts.find(p => p.id === id);
+            if(product) {
+                cart.push(product);
+                updateCartUI();
+                showToast("Añadido al Carrito", `${product.name} agregado a tu cotización.`);
+            }
+        }
+
+        function addCustomToCart() {
+            const mueble = document.getElementById('calcMueble').value;
+            const madera = document.getElementById('calcMadera').value;
+            const acabado = document.getElementById('calcAcabado').value;
+            const priceText = document.getElementById('estimatedPrice').textContent;
+            const priceNum = parseInt(priceText.replace(/[^0-9]/g, ''));
+
+            cart.push({
+                id: "CUSTOM-" + Math.floor(Math.random()*1000),
+                name: `${mueble} (${madera})`,
+                medidas: "Personalizada",
+                desc: `Acabado: ${acabado}`,
+                precio: priceText,
+                precioNum: priceNum
+            });
+            updateCartUI();
+            showToast("Cotización Exprés Añadida", "Tu mueble personalizado se agregó al carrito web.");
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            document.getElementById('cartCount').textContent = cart.length;
+            document.getElementById('floatingCartBadge').textContent = cart.length;
+            
+            const container = document.getElementById('cartItemsContainer');
+            const checkoutForm = document.getElementById('checkoutFormContainer');
+            const totalPriceEl = document.getElementById('cartTotalPrice');
+            const checkoutBtn = document.getElementById('checkoutBtn');
+
+            if(cart.length === 0) {
+                container.innerHTML = `<div class="text-center py-8 text-gray-400 text-sm">Tu carrito de cotización está vacío.</div>`;
+                checkoutForm.classList.add('hidden');
+                totalPriceEl.textContent = '$0 MXN';
+                checkoutBtn.textContent = 'Confirmar Pedido';
+                return;
+            }
+
+            let total = 0;
+            container.innerHTML = cart.map((item, idx) => {
+                total += item.precioNum;
+                return `
+                    <div class="flex justify-between items-center bg-gray-50 p-4 rounded-xl border border-gray-100">
+                        <div>
+                            <h5 class="font-bold text-sm text-forest-800">${item.name}</h5>
+                            <p class="text-xs text-gray-500">${item.desc}</p>
+                            <span class="text-xs font-serif font-bold text-wood">${item.precio}</span>
+                        </div>
+                        <button onclick="removeFromCart(${idx})" class="text-rose-500 hover:text-rose-700 p-2 text-xs">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+            }).join('');
+
+            totalPriceEl.textContent = '$' + total.toLocaleString() + ' MXN';
+            checkoutForm.classList.remove('hidden');
+        }
+
+        function toggleCartModal() {
+            document.getElementById('cartModal').classList.toggle('hidden');
+            updateCartUI();
+        }
+
+        async function proceedCheckout() {
+            const name = document.getElementById('orderName').value.trim();
+            const phone = document.getElementById('orderPhone').value.trim();
+            const email = document.getElementById('orderEmail').value.trim();
+            const notas = document.getElementById('orderNotes').value.trim();
+            if(!name || !phone) {
+                showToast("Datos incompletos", "Por favor ingresa tu nombre y teléfono para procesar el pedido.", true);
+                return;
+            }
+            if(!cart.length) { showToast("Carrito vacío", "Agrega al menos un mueble.", true); return; }
+            const btn = document.getElementById('checkoutBtn');
+            btn.disabled = true;
+            try {
+                const res = await api('/api/solicitudes', 'POST', { nombre: name, telefono: phone, correo: email, notas,
+                    items: cart.map(c => ({ nombre: c.name, precio: c.precioNum, detalle: [c.medidas, c.desc].filter(Boolean).join(' — ') })) });
+                showToast("¡Pedido Enviado!", `Tu folio es ${res.folio}. Te contactaremos pronto.`);
+                cart = [];
+                ['orderName', 'orderPhone', 'orderEmail', 'orderNotes'].forEach(i => document.getElementById(i).value = '');
+                updateCartUI();
+                toggleCartModal();
+            } catch (ex) {
+                showToast("No se pudo enviar", ex.message, true);
+            } finally { btn.disabled = false; }
+        }
+
+        // Render Public Catalog
+        const productGrid = document.getElementById('productGrid');
+        function renderPublicProducts(items) {
+            productGrid.innerHTML = '';
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between overflow-hidden group';
+                card.innerHTML = `
+                    <div class="relative h-48 bg-gray-100 overflow-hidden">
+                        <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='https://placehold.co/600x400/15231c/f5f2eb?text=Artesanos';">
+                        <span class="absolute top-3 left-3 bg-forest-800 text-white text-[10px] uppercase px-2 py-1 rounded">Pedido</span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-serif font-bold text-lg text-forest-800 mb-1">${item.name}</h3>
+                        <p class="text-xs text-gray-500 mb-2">Medidas: ${item.medidas}</p>
+                        <p class="text-xs text-gray-600 line-clamp-2">${item.desc}</p>
+                    </div>
+                    <div class="px-6 pb-6 pt-2 border-t border-gray-100 flex items-center justify-between">
+                        <span class="font-serif font-bold text-base text-forest-800">${item.precio}</span>
+                        <button onclick="addToCart('${item.id}')" class="bg-forest-800 hover:bg-forest-700 text-white text-xs px-4 py-2 rounded-xl flex items-center gap-1.5 transition">
+                            <i class="fa-solid fa-plus"></i> Cotizar
+                        </button>
+                    </div>
+                `;
+                productGrid.appendChild(card);
+            });
+        }
+        renderPublicProducts(furnitureProducts);
+
+        // Search & Filters
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const q = e.target.value.toLowerCase();
+            renderPublicProducts(furnitureProducts.filter(p => p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q)));
+        });
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.className = "filter-btn px-4 py-2 rounded-xl text-xs font-semibold uppercase bg-slate-100 text-slate-700");
+                e.target.className = "filter-btn px-4 py-2 rounded-xl text-xs font-semibold uppercase bg-forest-800 text-white";
+                const cat = e.target.getAttribute('data-filter');
+                renderPublicProducts(cat === 'all' ? furnitureProducts : furnitureProducts.filter(p => p.category === cat));
+            });
+        });
+
+        // Price Estimator Logic
+        const calcMueble = document.getElementById('calcMueble');
+        const calcMadera = document.getElementById('calcMadera');
+        const estimatedPrice = document.getElementById('estimatedPrice');
+
+        function updateEstimate() {
+            let base = 5000;
+            if(calcMueble.value.includes('Comedor')) base = 6500;
+            if(calcMadera.value.includes('Nogal')) base *= 1.3;
+            estimatedPrice.textContent = '$' + Math.round(base).toLocaleString() + ' MXN';
+        }
+        calcMueble.addEventListener('change', updateEstimate);
+        calcMadera.addEventListener('change', updateEstimate);
+
+        // FAQ Toggle
+        document.querySelectorAll('.faq-toggle').forEach(btn => {
+            btn.addEventListener('click', () => btn.nextElementSibling.classList.toggle('hidden'));
+        });
+
+        // ==================== PART 2: ADMIN DASHBOARD EXACT CODE WITH DYNAMIC COUNTERS ====================
+        const state = {
+            activeTab: 'inicio',
+            stats: { pedidos: 245, cotizaciones: 18, proyectos: 32 },
+            solicitudes: [
+                { id: 1201, cliente: "Carlos Mendoza", producto: "Mesa de comedor Roble Familiar", fecha: "08/05/2026", estado: "Aprobado", detalle: "Medidas especiales 200x100cm, acabado natural nogal." },
+                { id: 1202, cliente: "Sofía Valdés", producto: "Clóset de madera Nórdico", fecha: "03/07/2026", estado: "En Espera", detalle: "Requiere puertas corredizas e iluminación LED interna." },
+                { id: 1203, cliente: "Alejandro Ruiz", producto: "Escritorio de trabajo Encino", fecha: "13/05/2026", estado: "En Espera", detalle: "Incluye pasa-cables y cajonera lateral con llave." },
+                { id: 1204, cliente: "Mariana Garza", producto: "Cabecera matrimonial Siena", fecha: "13/05/2026", estado: "Cotizando", detalle: "Madera de encino tintada en tono nogal medio." },
+                { id: 1205, cliente: "Roberto Sotomayor", producto: "Credenza de sala Parota", fecha: "13/05/2026", estado: "Aprobado", detalle: "Pieza con veta viva y patas metálicas negras." },
+                { id: 1206, cliente: "Elena Pardo", producto: "Librero modular Bosque", fecha: "13/06/2026", estado: "Cotizando", detalle: "Estructura completa de 5 niveles para estudio." }
+            ],
+            catalogo: [
+                { id: 1, nombre: "Mesa de comedor Roble Familiar", categoria: "Comedor", precio: "$14,500 MXN", stock: "Disponible", codigo: "PTA.01" },
+                { id: 2, nombre: "Clóset de madera Nórdico", categoria: "Recámara", precio: "$28,000 MXN", stock: "Sobre Pedido", codigo: "PTA.02" },
+                { id: 3, nombre: "Cabecera matrimonial Siena", categoria: "Recámara", precio: "$6,200 MXN", stock: "Disponible", codigo: "PTA.03" },
+                { id: 4, nombre: "Escritorio de trabajo Encino", categoria: "Oficina", precio: "$8,900 MXN", stock: "Disponible", codigo: "PTA.04" },
+                { id: 5, nombre: "Credenza de sala Parota", categoria: "Sala", precio: "$16,500 MXN", stock: "Bajo Stock", codigo: "PTA.05" },
+                { id: 6, nombre: "Librero modular Bosque", categoria: "Estudio", precio: "$9,800 MXN", stock: "Disponible", codigo: "PTA.06" }
+            ],
+            cotizaciones: [
+                { id: "COT-901", cliente: "Valeria Soto", items: "Mesa Comedor Roble + 6 Sillas", total: "$22,400 MXN", estatus: "Enviada", vigencia: "15 días" },
+                { id: "COT-902", cliente: "Héctor Treviño", items: "Clóset Nórdico a medida", total: "$29,500 MXN", estatus: "Aceptada", vigencia: "Vencida" },
+                { id: "COT-903", cliente: "Lucía Morales", items: "Escritorio Encino + Buró Laurel", total: "$12,800 MXN", estatus: "Pendiente", vigencia: "7 días" }
+            ],
+            proyectos: [
+                { id: "PRJ-301", nombre: "Remodelación Residencia San Ángel", cliente: "Familia Garza", avance: "75%", fechaEntrega: "20 May 2026", estado: "En taller" },
+                { id: "PRJ-302", nombre: "Oficinas Corporativas Tec", cliente: "Grupo Innova", avance: "40%", fechaEntrega: "02 Jun 2026", estado: "Cortando madera" },
+                { id: "PRJ-303", nombre: "Cocina Integral Parota", cliente: "Dr. Ernesto Páez", avance: "90%", fechaEntrega: "15 May 2026", estado: "Listo para instalar" }
+            ],
+            inventario: [
+                { material: "Tablones de Roble Americano", categoria: "Madera Maciza", cantidad: "45 pzas", estado: "Óptimo", ubicacion: "Bodega A" },
+                { material: "Madera de Encino Nacional", categoria: "Madera Maciza", cantidad: "18 pzas", estado: "Suficiente", ubicacion: "Bodega A" },
+                { material: "Parota Seleccionada Veta Viva", categoria: "Madera Fina", cantidad: "8 pzas", estado: "Bajo stock", ubicacion: "Bodega B" },
+                { material: "Herrajes Cierre Suento Blum", categoria: "Herrajes", cantidad: "120 juegos", estado: "Óptimo", ubicacion: "Estante 3" },
+                { material: "Barniz Poliuretano Mate", categoria: "Acabados", cantidad: "14 galones", estado: "Suficiente", ubicacion: "Sección Química" }
+            ],
+            usuarios: [
+                { nombre: "Gabriel Montero", rol: "Administrador General", correo: "gabriel@artesanos.com", estado: "Activo" },
+                { nombre: "Esteban Rincón", rol: "Ebanista Master", correo: "esteban@artesanos.com", estado: "Activo" },
+                { nombre: "Daniela Santos", rol: "Ventas y Atención", correo: "daniela@artesanos.com", estado: "Activo" },
+                { nombre: "Miguel Ángel", rol: "Ayudante de Taller", correo: "miguel@artesanos.com", estado: "Inactivo" }
+            ]
+        };
+
+        // Switch System Views (Public Storefront vs Admin Dashboard)
+        function switchSystemView(mode) {
+            const publicEl = document.getElementById('publicView');
+            const adminEl = document.getElementById('adminView');
+            const btnPub = document.getElementById('btnViewPublic');
+            const btnAdm = document.getElementById('btnViewAdmin');
+
+            if(mode === 'public') {
+                publicEl.classList.remove('hidden');
+                adminEl.classList.add('hidden');
+                btnPub.className = "px-3.5 py-1.5 bg-wood text-white rounded-lg font-medium transition text-xs shadow-sm flex items-center gap-1.5";
+                btnAdm.className = "px-3.5 py-1.5 bg-forest-700 hover:bg-forest-800 text-white rounded-lg font-medium transition text-xs flex items-center gap-1.5";
+            } else {
+                publicEl.classList.add('hidden');
+                adminEl.classList.remove('hidden');
+                btnAdm.className = "px-3.5 py-1.5 bg-wood text-white rounded-lg font-medium transition text-xs shadow-sm flex items-center gap-1.5";
+                btnPub.className = "px-3.5 py-1.5 bg-forest-700 hover:bg-forest-800 text-white rounded-lg font-medium transition text-xs flex items-center gap-1.5";
+            }
+        }
+
+        // ---- Conexión con el backend ----
+        async function api(ruta, metodo = 'GET', cuerpo) {
+            const r = await fetch(ruta, { method: metodo, credentials: 'same-origin',
+                headers: { 'Content-Type': 'application/json' },
+                body: metodo === 'GET' ? undefined : JSON.stringify(cuerpo || {}) });
+            const datos = await r.json().catch(() => ({}));
+            if (!r.ok) throw new Error(datos.error || 'Error del servidor');
+            return datos;
+        }
+
+        async function cargarSolicitudes() {
+            state.solicitudes = await api('/api/admin/solicitudes');
+            state.stats.pedidos = state.solicitudes.length;
+            state.stats.cotizaciones = state.solicitudes.filter(s => s.estado === 'Cotizando').length;
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const err = document.getElementById('loginError');
+            err.classList.add('hidden');
+            try {
+                const res = await api('/api/login', 'POST', {
+                    correo: document.getElementById('loginEmail').value.trim(),
+                    contrasena: document.getElementById('loginPassword').value });
+                if (!['Administrador', 'Cotizador'].includes(res.usuario.rol)) {
+                    await api('/api/logout', 'POST');
+                    throw new Error('Tu cuenta no tiene acceso al panel.');
+                }
+                document.getElementById('loginPassword').value = '';
+                await cargarSolicitudes();
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('appLayout').classList.remove('hidden');
+                renderTab('inicio');
+                showToast("Bienvenido al Sistema", `Sesión iniciada como ${res.usuario.rol}.`);
+            } catch (ex) {
+                err.textContent = ex.message;
+                err.classList.remove('hidden');
+            }
+        });
+
+        async function logout() {
+            try { await api('/api/logout', 'POST'); } catch (ex) {}
+            state.solicitudes = [];
+            document.getElementById('appLayout').classList.add('hidden');
+            document.getElementById('loginScreen').classList.remove('hidden');
+        }
+
+        async function guardarEstado() {
+            const id = window.currentRequestId;
+            const nuevo = document.getElementById('modalStatusSelect').value;
+            try {
+                await api(`/api/admin/solicitudes/${id}/estado`, 'PATCH', { estado: nuevo });
+                await cargarSolicitudes();
+                closeModal();
+                renderTab(state.activeTab);
+                showToast('Estatus Actualizado', `La solicitud #${id} ahora está ${nuevo}`);
+            } catch (ex) { showToast('No se pudo actualizar', ex.message, true); }
+        }
+
+        // Tab Navigation Switcher (8 Tabs)
+        function switchTab(tabKey) {
+            state.activeTab = tabKey;
+            document.querySelectorAll('.nav-link').forEach(link => {
+                if(link.getAttribute('data-tab') === tabKey) {
+                    link.className = "nav-link flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-sm transition bg-forest-700 text-white shadow-sm";
+                } else {
+                    link.className = "nav-link flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-sm transition text-slate-600 hover:bg-forest-50 hover:text-forest-700";
+                }
+            });
+            renderTab(tabKey);
+        }
+
+        function renderTab(tab) {
+            const container = document.getElementById('mainContentArea');
+            const titleHeader = document.getElementById('pageTitleHeader');
+            
+            switch(tab) {
+                case 'inicio':
+                    titleHeader.textContent = "Panel de Administración";
+                    container.innerHTML = renderDashboardHome();
+                    break;
+                case 'catalogo':
+                    titleHeader.textContent = "Gestión de Catálogo de Muebles";
+                    container.innerHTML = renderCatalogView();
+                    break;
+                case 'solicitudes':
+                    titleHeader.textContent = "Solicitudes de Clientes";
+                    container.innerHTML = renderRequestsView();
+                    break;
+                case 'cotizaciones':
+                    titleHeader.textContent = "Control de Cotizaciones";
+                    container.innerHTML = renderQuotesView();
+                    break;
+                case 'proyectos':
+                    titleHeader.textContent = "Proyectos Activos en Taller";
+                    container.innerHTML = renderProjectsView();
+                    break;
+                case 'inventario':
+                    titleHeader.textContent = "Inventario de Maderas y Herrajes";
+                    container.innerHTML = renderInventoryView();
+                    break;
+                case 'usuarios':
+                    titleHeader.textContent = "Gestión de Usuarios y Roles";
+                    container.innerHTML = renderUsersView();
+                    break;
+                case 'reportes':
+                    titleHeader.textContent = "Reportes y Métricas Financieras";
+                    container.innerHTML = renderReportsView();
+                    break;
+            }
+        }
+
+        function renderDashboardHome() {
+            // Count pending quotes dynamically
+            const pendingQuotesCount = state.cotizaciones.filter(c => c.estatus === 'Pendiente' || c.estatus === 'Enviada').length + 12;
+            return `
+                <div class="space-y-8 animate-fadeIn">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-wood-card text-white p-6 rounded-2xl shadow-lg relative overflow-hidden flex flex-col justify-between">
+                            <div class="absolute -right-6 -bottom-6 opacity-10 text-9xl"><i class="fa-solid fa-cart-shopping"></i></div>
+                            <div class="flex justify-between items-start">
+                                <span class="text-xs uppercase font-semibold tracking-wider text-wood-light bg-black/20 px-3 py-1 rounded-full">Total de Pedidos</span>
+                                <div class="w-10 h-10 rounded-xl bg-black/20 flex items-center justify-center text-white"><i class="fa-solid fa-cart-shopping"></i></div>
+                            </div>
+                            <div class="mt-6 flex items-baseline justify-between">
+                                <span class="text-4xl font-extrabold tracking-tight">${state.stats.pedidos}</span>
+                                <span class="text-xs font-semibold bg-emerald-500/30 text-emerald-200 px-2.5 py-1 rounded-lg flex items-center gap-1"><i class="fa-solid fa-arrow-up"></i> 5%</span>
+                            </div>
+                        </div>
+                        <div class="bg-wood-card2 text-white p-6 rounded-2xl shadow-lg relative overflow-hidden flex flex-col justify-between">
+                            <div class="absolute -right-6 -bottom-6 opacity-10 text-9xl"><i class="fa-solid fa-file-invoice"></i></div>
+                            <div class="flex justify-between items-start">
+                                <span class="text-xs uppercase font-semibold tracking-wider text-wood-light bg-black/20 px-3 py-1 rounded-full">Cotizaciones Pendientes</span>
+                                <div class="w-10 h-10 rounded-xl bg-black/20 flex items-center justify-center text-white"><i class="fa-solid fa-file-lines"></i></div>
+                            </div>
+                            <div class="mt-6 flex items-baseline justify-between">
+                                <span class="text-4xl font-extrabold tracking-tight">${state.stats.cotizaciones}</span>
+                                <span class="text-xs text-wood-light font-medium">Requieren atención</span>
+                            </div>
+                        </div>
+                        <div class="bg-forest-700 text-white p-6 rounded-2xl shadow-lg relative overflow-hidden flex flex-col justify-between">
+                            <div class="absolute -right-6 -bottom-6 opacity-10 text-9xl"><i class="fa-solid fa-briefcase"></i></div>
+                            <div class="flex justify-between items-start">
+                                <span class="text-xs uppercase font-semibold tracking-wider text-emerald-300 bg-black/20 px-3 py-1 rounded-full">Proyectos Activos</span>
+                                <div class="w-10 h-10 rounded-xl bg-black/20 flex items-center justify-center text-white"><i class="fa-solid fa-briefcase"></i></div>
+                            </div>
+                            <div class="mt-6 flex items-baseline justify-between">
+                                <span class="text-4xl font-extrabold tracking-tight">${state.stats.proyectos}</span>
+                                <span class="text-xs text-emerald-200 font-medium">En proceso de taller</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="p-6 border-b border-slate-100 flex items-center justify-between">
+                            <h3 class="font-bold text-slate-800 text-base">Solicitudes de Carpintería Recientes</h3>
+                            <button onclick="switchTab('solicitudes')" class="text-xs font-bold text-forest-700 hover:underline">Ver todas</button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-50 text-slate-500 text-xs font-semibold uppercase tracking-wider border-b border-slate-200">
+                                        <th class="py-3.5 px-6">ID</th><th class="py-3.5 px-6">Cliente</th><th class="py-3.5 px-6">Producto</th><th class="py-3.5 px-6">Fecha Solicitud</th><th class="py-3.5 px-6">Estado</th><th class="py-3.5 px-6 text-right">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100 text-sm">
+                                    ${state.solicitudes.map(s => `
+                                        <tr class="hover:bg-forest-50/50 transition">
+                                            <td class="py-4 px-6 font-semibold text-slate-600">#${s.id}</td>
+                                            <td class="py-4 px-6 font-medium text-slate-800">${s.cliente}</td>
+                                            <td class="py-4 px-6 text-slate-600">${s.producto}</td>
+                                            <td class="py-4 px-6 text-slate-500">${s.fecha}</td>
+                                            <td class="py-4 px-6"><span class="px-3 py-1 rounded-full text-xs font-semibold ${s.estado === 'Aprobado' ? 'bg-emerald-100 text-emerald-700' : s.estado === 'En Espera' ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-700'}">${s.estado}</span></td>
+                                            <td class="py-4 px-6 text-right"><button onclick="openDetailModal(${s.id})" class="px-3.5 py-1.5 bg-forest-700 text-white text-xs font-semibold rounded-lg hover:bg-forest-800 transition shadow-sm">Ver Detalle</button></td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderCatalogView() {
+            return `
+                <div class="space-y-6 animate-fadeIn">
+                    <div class="flex justify-between items-center bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                        <div>
+                            <h3 class="font-bold text-slate-800 text-lg">Catálogo de Piezas y Muebles</h3>
+                            <p class="text-xs text-slate-500 mt-0.5">Administra los muebles exhibidos y sus precios de referencia.</p>
+                        </div>
+                        <button onclick="openAddCatalogModal()" class="px-4 py-2.5 bg-forest-700 text-white font-semibold text-sm rounded-xl hover:bg-forest-800 transition flex items-center gap-2 shadow"><i class="fa-solid fa-plus"></i><span>Agregar Mueble</span></button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        ${state.catalogo.map(item => `
+                            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow-md transition">
+                                <div>
+                                    <div class="flex justify-between items-start mb-3">
+                                        <span class="text-xs font-semibold bg-forest-100 text-forest-700 px-3 py-1 rounded-full">${item.categoria}</span>
+                                        <span class="text-xs font-bold text-slate-400">${item.codigo}</span>
+                                    </div>
+                                    <h4 class="font-bold text-slate-800 text-base mb-1">${item.nombre}</h4>
+                                    <p class="text-lg font-extrabold text-wood">${item.precio}</p>
+                                </div>
+                                <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+                                    <span class="text-xs font-semibold text-emerald-600 flex items-center gap-1"><i class="fa-solid fa-circle text-[8px]"></i> ${item.stock}</span>
+                                    <div class="flex gap-2">
+                                        <button onclick="showToast('Editar Mueble', 'Abriendo editor para ${item.nombre}')" class="p-2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-lg transition text-xs"><i class="fa-solid fa-pen"></i></button>
+                                        <button onclick="showToast('Eliminado', '${item.nombre} removido del catálogo')" class="p-2 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg transition text-xs"><i class="fa-solid fa-trash"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderRequestsView() {
+            return `
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden animate-fadeIn">
+                    <div class="p-6 border-b border-slate-100 flex justify-between items-center">
+                        <div><h3 class="font-bold text-slate-800 text-lg">Todas las Solicitudes</h3><p class="text-xs text-slate-500 mt-0.5">Listado completo de pedidos y solicitudes entrantes de clientes.</p></div>
+                        <span class="text-xs bg-forest-100 text-forest-700 font-bold px-3 py-1 rounded-full">${state.solicitudes.length} Totales</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead><tr class="bg-slate-50 text-slate-500 text-xs font-semibold uppercase tracking-wider border-b border-slate-200"><th class="py-3.5 px-6">ID</th><th class="py-3.5 px-6">Cliente</th><th class="py-3.5 px-6">Producto</th><th class="py-3.5 px-6">Fecha</th><th class="py-3.5 px-6">Estado</th><th class="py-3.5 px-6 text-right">Acciones</th></tr></thead>
+                            <tbody class="divide-y divide-slate-100 text-sm">
+                                ${state.solicitudes.map(s => `
+                                    <tr class="hover:bg-forest-50/50 transition">
+                                        <td class="py-4 px-6 font-semibold text-slate-600">#${s.id}</td>
+                                        <td class="py-4 px-6 font-medium text-slate-800">${s.cliente}</td>
+                                        <td class="py-4 px-6 text-slate-600">${s.producto}</td>
+                                        <td class="py-4 px-6 text-slate-500">${s.fecha}</td>
+                                        <td class="py-4 px-6"><span class="px-3 py-1 rounded-full text-xs font-semibold ${s.estado === 'Aprobado' ? 'bg-emerald-100 text-emerald-700' : s.estado === 'En Espera' ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-700'}">${s.estado}</span></td>
+                                        <td class="py-4 px-6 text-right"><button onclick="openDetailModal(${s.id})" class="px-3.5 py-1.5 bg-forest-700 text-white text-xs font-semibold rounded-lg hover:bg-forest-800 transition shadow-sm">Ver Detalle</button></td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderQuotesView() {
+            return `
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden animate-fadeIn">
+                    <div class="p-6 border-b border-slate-100 flex justify-between items-center">
+                        <div><h3 class="font-bold text-slate-800 text-lg">Cotizaciones Enviadas</h3><p class="text-xs text-slate-500 mt-0.5">Estatus de presupuestos entregados a clientes.</p></div>
+                        <button onclick="showToast('Nueva Cotización', 'Generador de cotización abierto')" class="px-4 py-2 bg-forest-700 text-white text-xs font-semibold rounded-xl hover:bg-forest-800 transition">+ Crear Cotización</button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead><tr class="bg-slate-50 text-slate-500 text-xs font-semibold uppercase tracking-wider border-b border-slate-200"><th class="py-3.5 px-6">Folio</th><th class="py-3.5 px-6">Cliente</th><th class="py-3.5 px-6">Descripción</th><th class="py-3.5 px-6">Total Estimado</th><th class="py-3.5 px-6">Estatus</th><th class="py-3.5 px-6 text-right">Acción</th></tr></thead>
+                            <tbody class="divide-y divide-slate-100 text-sm">
+                                ${state.cotizaciones.map((c, idx) => `
+                                    <tr class="hover:bg-slate-50 transition">
+                                        <td class="py-4 px-6 font-semibold text-slate-700">${c.id}</td>
+                                        <td class="py-4 px-6 font-medium text-slate-800">${c.cliente}</td>
+                                        <td class="py-4 px-6 text-slate-600">${c.items}</td>
+                                        <td class="py-4 px-6 font-extrabold text-wood">${c.total}</td>
+                                        <td class="py-4 px-6"><span class="px-3 py-1 rounded-full text-xs font-semibold ${c.estatus === 'Aceptada' ? 'bg-emerald-100 text-emerald-700' : c.estatus === 'Enviada' ? 'bg-blue-100 text-blue-700' : 'bg-amber-100 text-amber-700'}">${c.estatus}</span></td>
+                                        <td class="py-4 px-6 text-right">
+                                            <button onclick="toggleQuoteStatus(${idx})" class="px-3 py-1.5 bg-forest-700 text-white rounded-lg text-xs font-semibold hover:bg-forest-800 transition">Cambiar Estatus</button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function toggleQuoteStatus(idx) {
+            const q = state.cotizaciones[idx];
+            if(q.estatus === 'Pendiente') { q.estatus = 'Enviada'; state.stats.cotizaciones++; }
+            else if(q.estatus === 'Enviada') { q.estatus = 'Aceptada'; state.stats.cotizaciones = Math.max(0, state.stats.cotizaciones - 1); state.stats.pedidos++; }
+            else { q.estatus = 'Pendiente'; }
+            renderTab('cotizaciones');
+            showToast("Cotización Actualizada", `Folio ${q.id} ahora está ${q.estatus}`);
+        }
+
+        function renderProjectsView() {
+            return `
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fadeIn">
+                    ${state.proyectos.map(p => `
+                        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between">
+                            <div>
+                                <div class="flex justify-between items-start mb-2">
+                                    <span class="text-xs font-bold text-slate-400">${p.id}</span>
+                                    <span class="px-2.5 py-1 bg-forest-100 text-forest-700 text-xs font-semibold rounded-full">${p.estado}</span>
+                                </div>
+                                <h4 class="font-bold text-slate-800 text-base mb-1">${p.nombre}</h4>
+                                <p class="text-xs text-slate-500 mb-4">Cliente: <span class="font-medium text-slate-700">${p.cliente}</span></p>
+                                <div class="space-y-1 mb-4">
+                                    <div class="flex justify-between text-xs font-semibold"><span class="text-slate-500">Avance en Taller</span><span class="text-forest-700">${p.avance}</span></div>
+                                    <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden"><div class="bg-forest-600 h-full rounded-full" style="width: ${p.avance}"></div></div>
+                                </div>
+                            </div>
+                            <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                                <span>Entrega: <strong>${p.fechaEntrega}</strong></span>
+                                <button onclick="showToast('Proyecto', 'Actualizando estatus del proyecto')" class="px-3 py-1.5 bg-forest-700 text-white rounded-lg hover:bg-forest-800 font-semibold transition">Actualizar</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function renderInventoryView() {
+            return `
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden animate-fadeIn">
+                    <div class="p-6 border-b border-slate-100 flex justify-between items-center">
+                        <div><h3 class="font-bold text-slate-800 text-lg">Control de Inventario de Maderas y Insumos</h3><p class="text-xs text-slate-500 mt-0.5">Stock disponible en talleres y bodegas principales.</p></div>
+                        <button onclick="showToast('Inventario', 'Formulario de registro de material abierto')" class="px-4 py-2 bg-forest-700 text-white text-xs font-semibold rounded-xl hover:bg-forest-800 transition">+ Registrar Entrada</button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead><tr class="bg-slate-50 text-slate-500 text-xs font-semibold uppercase tracking-wider border-b border-slate-200"><th class="py-3.5 px-6">Material / Insumo</th><th class="py-3.5 px-6">Categoría</th><th class="py-3.5 px-6">Cantidad</th><th class="py-3.5 px-6">Ubicación</th><th class="py-3.5 px-6">Estatus Stock</th></tr></thead>
+                            <tbody class="divide-y divide-slate-100 text-sm">
+                                ${state.inventario.map(i => `
+                                    <tr class="hover:bg-slate-50 transition">
+                                        <td class="py-4 px-6 font-bold text-slate-800">${i.material}</td>
+                                        <td class="py-4 px-6 text-slate-600">${i.categoria}</td>
+                                        <td class="py-4 px-6 font-semibold text-wood">${i.cantidad}</td>
+                                        <td class="py-4 px-6 text-slate-500">${i.ubicacion}</td>
+                                        <td class="py-4 px-6"><span class="px-3 py-1 rounded-full text-xs font-semibold ${i.estado === 'Óptimo' ? 'bg-emerald-100 text-emerald-700' : i.estado === 'Suficiente' ? 'bg-blue-100 text-blue-700' : 'bg-rose-100 text-rose-700'}">${i.estado}</span></td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderUsersView() {
+            return `
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden animate-fadeIn">
+                    <div class="p-6 border-b border-slate-100 flex justify-between items-center">
+                        <div><h3 class="font-bold text-slate-800 text-lg">Usuarios y Roles del Sistema</h3><p class="text-xs text-slate-500 mt-0.5">Control de accesos para administradores, ebanistas y ventas.</p></div>
+                        <button onclick="showToast('Usuario', 'Ventana de nuevo usuario abierta')" class="px-4 py-2 bg-forest-700 text-white text-xs font-semibold rounded-xl hover:bg-forest-800 transition">+ Nuevo Usuario</button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead><tr class="bg-slate-50 text-slate-500 text-xs font-semibold uppercase tracking-wider border-b border-slate-200"><th class="py-3.5 px-6">Nombre</th><th class="py-3.5 px-6">Rol</th><th class="py-3.5 px-6">Correo Electrónico</th><th class="py-3.5 px-6">Estado</th><th class="py-3.5 px-6 text-right">Acción</th></tr></thead>
+                            <tbody class="divide-y divide-slate-100 text-sm">
+                                ${state.usuarios.map(u => `
+                                    <tr class="hover:bg-slate-50 transition">
+                                        <td class="py-4 px-6 font-bold text-slate-800">${u.nombre}</td>
+                                        <td class="py-4 px-6 text-slate-600 font-medium">${u.rol}</td>
+                                        <td class="py-4 px-6 text-slate-500">${u.correo}</td>
+                                        <td class="py-4 px-6"><span class="px-3 py-1 rounded-full text-xs font-semibold ${u.estado === 'Activo' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500'}">${u.estado}</span></td>
+                                        <td class="py-4 px-6 text-right"><button onclick="showToast('Permisos', 'Editando accesos de ${u.nombre}')" class="text-xs font-semibold text-forest-700 hover:underline">Editar</button></td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderReportsView() {
+            return `
+                <div class="space-y-6 animate-fadeIn">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm"><span class="text-xs font-bold text-slate-400 uppercase">Ingresos del Mes</span><h4 class="text-3xl font-extrabold text-slate-800 mt-2">$284,500 <span class="text-sm font-medium text-emerald-600">+12% vs mes anterior</span></h4></div>
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm"><span class="text-xs font-bold text-slate-400 uppercase">Muebles Más Vendidos</span><h4 class="text-lg font-extrabold text-forest-700 mt-2">Mesa de Comedor Roble</h4></div>
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm"><span class="text-xs font-bold text-slate-400 uppercase">Eficiencia en Taller</span><h4 class="text-3xl font-extrabold text-slate-800 mt-2">94.2% <span class="text-sm font-medium text-emerald-600">Excelente</span></h4></div>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm text-center py-16">
+                        <div class="w-16 h-16 bg-forest-50 text-forest-700 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl"><i class="fa-solid fa-chart-pie"></i></div>
+                        <h3 class="font-bold text-slate-800 text-lg mb-1">Reportes Estadísticos Detallados</h3>
+                        <p class="text-sm text-slate-500 max-w-md mx-auto mb-6">Genera reportes personalizados en formato PDF o Excel con el rendimiento financiero y de producción de la carpintería.</p>
+                        <button onclick="showToast('Reporte Generado', 'El archivo PDF se ha descargado correctamente')" class="px-6 py-3 bg-forest-700 text-white font-semibold text-sm rounded-xl hover:bg-forest-800 transition shadow">Descargar Reporte Mensual PDF</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Modal interactions
+        function openDetailModal(id) {
+            const req = state.solicitudes.find(s => s.id === id);
+            if(!req) return;
+            document.getElementById('modalTitle').textContent = `Detalle de Solicitud #${req.id}`;
+            document.getElementById('modalBody').innerHTML = `
+                <div class="space-y-4">
+                    <div><label class="text-xs font-bold text-slate-400 uppercase block">Cliente</label><p class="text-base font-semibold text-slate-800">${req.cliente}</p></div>
+                    <div><label class="text-xs font-bold text-slate-400 uppercase block">Producto Solicitado</label><p class="text-base font-semibold text-forest-700">${req.producto}</p></div>
+                    <div><label class="text-xs font-bold text-slate-400 uppercase block">Especificaciones del Proyecto</label><p class="text-sm bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-slate-700">${req.detalle}</p></div>
+                    <div><label class="text-xs font-bold text-slate-400 uppercase block mb-1">Actualizar Estatus</label>
+                        <select id="modalStatusSelect" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:outline-none focus:border-forest-600">
+                            <option value="En Espera" ${req.estado === 'En Espera' ? 'selected' : ''}>En Espera</option>
+                            <option value="Cotizando" ${req.estado === 'Cotizando' ? 'selected' : ''}>Cotizando</option>
+                            <option value="Aprobado" ${req.estado === 'Aprobado' ? 'selected' : ''}>Aprobado</option>
+                            <option value="Rechazado" ${req.estado === 'Rechazado' ? 'selected' : ''}>Rechazado</option>
+                            <option value="Cancelado" ${req.estado === 'Cancelado' ? 'selected' : ''}>Cancelado</option>
+                        </select>
+                    </div>
+                </div>
+            `;
+            document.getElementById('genericModal').classList.remove('hidden');
+            window.currentRequestId = id;
+        }
+
+        function openAddCatalogModal() {
+            document.getElementById('modalTitle').textContent = "Agregar Nuevo Mueble al Catálogo";
+            document.getElementById('modalBody').innerHTML = `
+                <div class="space-y-4">
+                    <div><label class="text-xs font-bold text-slate-400 uppercase block mb-1">Nombre del Mueble</label><input type="text" id="newCatName" placeholder="Ej. Mesa de centro Nogal" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm"></div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div><label class="text-xs font-bold text-slate-400 uppercase block mb-1">Categoría</label><input type="text" id="newCatCat" placeholder="Ej. Sala" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm"></div>
+                        <div><label class="text-xs font-bold text-slate-400 uppercase block mb-1">Precio Referencia</label><input type="text" id="newCatPrice" placeholder="$12,000 MXN" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm"></div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('genericModal').classList.remove('hidden');
+            window.currentRequestId = 'newCatalog';
+        }
+
+        function modalAction() {
+            if(window.currentRequestId !== 'newCatalog') { return guardarEstado(); }
+            if(window.currentRequestId === 'newCatalog') {
+                const name = document.getElementById('newCatName').value;
+                const cat = document.getElementById('newCatCat').value;
+                const price = document.getElementById('newCatPrice').value;
+                if(name) {
+                    state.catalogo.push({ id: state.catalogo.length + 1, nombre: name, categoria: cat || 'General', precio: price || '$10,000 MXN', stock: 'Disponible', codigo: 'PTA.0' + (state.catalogo.length + 1) });
+                    closeModal();
+                    renderTab('catalogo');
+                    showToast('Catálogo Actualizado', 'El nuevo mueble se ha agregado correctamente.');
+                }
+            } else {
+                const newStatus = document.getElementById('modalStatusSelect').value;
+                const req = state.solicitudes.find(s => s.id === window.currentRequestId);
+                if(req) {
+                    if(req.estado !== 'Aprobado' && newStatus === 'Aprobado') {
+                        state.stats.pedidos++;
+                    }
+                    req.estado = newStatus;
+                    closeModal();
+                    renderTab(state.activeTab);
+                    showToast('Estatus Actualizado', `La solicitud #${req.id} ahora está ${newStatus}`);
+                }
+            }
+        }
+
+        function closeModal() { document.getElementById('genericModal').classList.add('hidden'); }
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('hidden'); }
+
+        function showToast(title, message, isError = false) {
+            const toast = document.getElementById('toastNotification');
+            document.getElementById('toastTitle').textContent = title;
+            document.getElementById('toastMessage').textContent = message;
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            setTimeout(() => toast.classList.add('translate-y-24', 'opacity-0'), 3500);
+        }
+    </script>
+</body>
+</html>
